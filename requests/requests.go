@@ -73,7 +73,7 @@ func DownloadString(remoteUrl string, queryValues url.Values) (body []byte, err 
 	}
 	return
 }
-
+//下载远程文件并保存到指定位置
 func DownloadAndSaveFile(remoteUrl, dstFile string) (error) {
 	client := &http.Client{}
 	uri, err := url.Parse(remoteUrl)
