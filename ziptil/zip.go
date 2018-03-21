@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"io"
 	"strings"
-	"fmt"
 )
 
 //压缩文件
