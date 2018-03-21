@@ -12,7 +12,7 @@ func TestZip(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}else{
-		t.Log("ok")
+		t.Log(os.TempDir())
 	}
 }
 

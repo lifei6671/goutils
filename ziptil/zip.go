@@ -4,8 +4,9 @@ import (
 	"os"
 	"archive/zip"
 	"path/filepath"
-	"strings"
 	"io"
+	"strings"
+	"fmt"
 )
 
 //压缩文件
@@ -19,29 +20,21 @@ func Zip(source, target string) error {
 	archive := zip.NewWriter(zipFile)
 	defer archive.Close()
 
-	info, err := os.Stat(source)
-	if err != nil {
-		return err
-	}
-
-	var baseDir string
-	if info.IsDir() {
-		baseDir = filepath.Base(source)
-	}
-
 	filepath.Walk(source, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
+		path = strings.Replace(path,"\\","/",-1)
 
+		if path == source {
+			return nil
+		}
 		header, err := zip.FileInfoHeader(info)
 		if err != nil {
 			return err
 		}
 
-		if baseDir != "" {
-			header.Name = filepath.Join(baseDir, strings.TrimPrefix(strings.Replace(path,"\\","/",-1), source))
-		}
+		header.Name = strings.TrimPrefix(strings.TrimPrefix(strings.Replace(path,"\\","/",-1), source),"/")
 
 		if info.IsDir() {
 			header.Name += "/"
